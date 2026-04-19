@@ -33,10 +33,6 @@ struct Process
 
     // constructor
     Process(int id = 0, int at = 0, int bt = 0, int pr = 0);
-
-    // methods
-    void reset();
-    bool isCompleted() const;
-    void display() const;
+   
 };
 #endif
