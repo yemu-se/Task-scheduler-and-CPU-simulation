@@ -79,7 +79,7 @@ int main()
     for (int i = 0; i < 3; i++)
     {
         cout << "  ";
-        processes[i].display();
+      
         cout << endl;
     }
 
