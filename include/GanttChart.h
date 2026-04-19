@@ -23,11 +23,6 @@ public:
 
     void display();
 
-    int getCount();
-
-    GanttEntry getLast();
-
-    void clear();
 };
 
 #endif
