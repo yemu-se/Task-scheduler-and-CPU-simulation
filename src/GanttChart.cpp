@@ -67,23 +67,3 @@ void GanttChart::display()
     int totalTime = entries[count - 1].endTime - entries[0].startTime;
     cout << "\nTOtal Time: " << totalTime << "units" << endl;
 }
-int GanttChart::getCount()
-{
-    return count;
-}
-
-GanttEntry GanttChart::getLast()
-{
-    if (count > 0)
-    {
-        return entries[count - 1];
-    }
-    // Return empty entry if no data
-    GanttEntry empty = {0, 0, 0};
-    return empty;
-}
-
-void GanttChart::clear()
-{
-    count = 0;
-}
