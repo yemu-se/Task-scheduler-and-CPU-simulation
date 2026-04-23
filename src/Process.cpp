@@ -1,22 +1,23 @@
 #include "../include/Process.h"
 #include <iostream>
 
-Process::Process(int id, int at, int bt,int pr) {
+Process::Process(int id, int at, int bt, int pr)
+{
     pid = id;
     arrivalTime = at;
     burstTime = bt;
-    priority =pr;
+    priority = pr;
 
-    //execution state
-    remainingTime =bt;
-    state =NEW;
+    // execution state
+    remainingTime = bt;
+    state = NEW;
+    next = nullptr;
 
-    //performance metrics
+    // performance metrics
     startTime = 0;
-    waitingTime =0;
-    turnaroundTime =0;
-    completionTime =0;
-    responseTime =0;
-    firstResponseTime =-1;//-1 means "not yet responded
-    
+    waitingTime = 0;
+    turnaroundTime = 0;
+    completionTime = 0;
+    responseTime = 0;
+    firstResponseTime = -1; //-1 means "not yet responded
 }

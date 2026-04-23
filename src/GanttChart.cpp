@@ -12,8 +12,6 @@ void GanttChart::add(int pid, int start, int end)
         entries[count - 1].endTime == start)
     {
         entries[count - 1].endTime = end;
-        cout << " [Merged] p" << pid << " continued from "
-             << start << " to " << end;
     }
     else
     {
@@ -21,8 +19,6 @@ void GanttChart::add(int pid, int start, int end)
         entries[count].startTime = start;
         entries[count].endTime = end;
         count++;
-        cout << " [New] p" << pid << " ran from "
-             << start << " to " << end << endl;
     }
 }
 
@@ -30,7 +26,6 @@ void GanttChart::display()
 {
     if (count == 0)
     {
-        cout << " No entries to display" << endl;
         return;
     }
 
@@ -63,7 +58,4 @@ void GanttChart::display()
         cout << "\t" << entries[i].endTime;
     }
     cout << "+\n";
-
-    int totalTime = entries[count - 1].endTime - entries[0].startTime;
-    cout << "\nTOtal Time: " << totalTime << "units" << endl;
 }
