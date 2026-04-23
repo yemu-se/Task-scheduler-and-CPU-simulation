@@ -3,18 +3,19 @@
 
 #include "Process.h"
 
-class Queue {
-private:
-    Process** arr;
+struct Queue
+{
+    Process **arr;
     int front;
     int rear;
     int capacity;
     int count;
-    public:
-        Queue(int cap = 100);
+
+    Queue(int cap = 100);
     ~Queue();
-    void enqueue(Process* p);
-    Process* dequeue();
+    void enqueue(Process *p);
+    Process *dequeue();
     bool isEmpty();
 };
+
 #endif

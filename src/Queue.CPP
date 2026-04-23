@@ -31,7 +31,7 @@ Process *Queue::dequeue()
 {
     if (isEmpty())
         return nullptr;
-    Process *p = arr[front];
+        Process *p = arr[front];
     front = (front + 1) % capacity;
     count--;
     return p;

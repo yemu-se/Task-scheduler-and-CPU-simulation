@@ -22,6 +22,7 @@ struct Process
     // execution state
     int remainingTime;
     ProcessState state;
+    Process *next;
 
     // performance metrics
     int startTime;
@@ -33,6 +34,5 @@ struct Process
 
     // constructor
     Process(int id = 0, int at = 0, int bt = 0, int pr = 0);
-   
 };
 #endif

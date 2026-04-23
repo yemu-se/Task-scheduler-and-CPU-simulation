@@ -3,26 +3,22 @@
 
 #include <iostream>
 using namespace std;
-struct GanttEntry // represents one block in the Gantt chart.
+
+struct GanttEntry
 {
     int pid;
     int startTime;
     int endTime;
 };
-class GanttChart
+
+struct GanttChart
 {
-private:
     GanttEntry entries[100];
     int count;
 
-public:
     GanttChart();
-
-    // If same process runs continuously, merge with previous
     void add(int pid, int start, int end);
-
     void display();
-
 };
 
 #endif
