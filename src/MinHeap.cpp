@@ -7,6 +7,7 @@ MinHeap::MinHeap(int cap)
     size = 0;
 }
 
+// Destructor
 MinHeap::~MinHeap()
 {
     delete[] arr;

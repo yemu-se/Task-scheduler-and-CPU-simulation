@@ -11,15 +11,6 @@ void FCFS::schedule()
     int currentTIme = 0;
     Process *temp = processList->getHead();
 
-    cout << "Processes in list: ";
-    Process *debug = processList->getHead();
-    while (debug != nullptr)
-    {
-        cout << "P" << debug->pid << " ";
-        debug = debug->next;
-    }
-    cout << endl;
-
     while (temp != nullptr)
     {
         if (currentTIme < temp->arrivalTime)

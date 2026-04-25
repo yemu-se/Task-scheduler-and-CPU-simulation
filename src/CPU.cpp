@@ -43,6 +43,9 @@ void CPU::unloadProcess()
         runningProcess->state = TERMINATED;
         runningProcess = nullptr;
     }
+    else{
+        runningProcess = nullptr;
+    }
 }
 
 void CPU::preempt()

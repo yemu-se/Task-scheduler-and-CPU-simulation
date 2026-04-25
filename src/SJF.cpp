@@ -20,7 +20,7 @@ void SJF::schedule()
     {
         for (int j = 0; j < processCount - i - 1; j++)
         {
-            if (proceses[j]->arrivalTime > proceses[j]->arrivalTime)
+            if (proceses[j]->arrivalTime > proceses[j + 1]->arrivalTime)
             {
                 swap(proceses[j], proceses[j + 1]);
             }
@@ -32,11 +32,11 @@ void SJF::schedule()
     }
     MinHeap readQueue;
     int currentTime = 0;
-    int completed;
-    int index;
+    int completed = 0;
+    int index = 0;
 
     while (completed < processCount)
-    {
+    { // Load all processes that have arrived by "currentTime" into the MinHeap
         while (index < processCount && proceses[index]->arrivalTime <= currentTime)
         {
             readQueue.insert(proceses[index]);
@@ -45,6 +45,8 @@ void SJF::schedule()
         if (!readQueue.isEmpty())
         {
             Process *shortest = readQueue.extractMin();
+            shortest->waitingTime = currentTime - shortest->arrivalTime;
+            shortest->turnaroundTime = shortest->waitingTime + shortest->burstTime;
             if (currentTime < shortest->arrivalTime)
             {
                 currentTime = shortest->arrivalTime;
@@ -61,7 +63,6 @@ void SJF::schedule()
         {
             currentTime = proceses[index]->arrivalTime;
         }
-
-        displayResults();
     }
+    displayResults();
 }

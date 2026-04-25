@@ -6,7 +6,7 @@ using namespace std;
 Scheduler::Scheduler()
 {
     processList = new LinkedList();
-    totalWaitingTime = 0; // ← FIXED: added 'i'
+    totalWaitingTime = 0;
     totalTurnaroundTime = 0;
     totalResponseTime = 0;
 }

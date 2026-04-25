@@ -72,18 +72,16 @@ void Priority::schedule()
         }
         if (runningProcess == nullptr && readyCount > 0)
         {
-            int highestPriortyIndex = 0;
+            int highestPriorityIndex = 0;
             for (int i = 0; i < readyCount; i++)
             {
-                if (readyQueue[i]->priority < readyQueue[highestPriortyIndex]->priority)
+                if (readyQueue[i]->priority < readyQueue[highestPriorityIndex]->priority)
                 {
-                    highestPriortyIndex = i;
+                    highestPriorityIndex = i;
                 }
             }
-            runningProcess = readyQueue[highestPriortyIndex];
-            for (int i = highestPriortyIndex; i < readyCount - 1; i++)
-            {
-            }
+            runningProcess = readyQueue[highestPriorityIndex];
+            readyQueue[highestPriorityIndex] = readyQueue[readyCount - 1];
             readyCount--;
             int starttime = currentTime;
             cpu.loadProcess(runningProcess, starttime);

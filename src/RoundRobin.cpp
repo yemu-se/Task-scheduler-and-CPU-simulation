@@ -61,7 +61,7 @@ void RoundRobin::schedule()
         }
         else
         {
-            cpu.unloadProcess();
+            cpu.preempt();
             while (index < processCount && processes[index]->arrivalTime <= currentTime)
             {
                 readQueue.enqueue(processes[index]);

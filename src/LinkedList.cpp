@@ -57,6 +57,7 @@ void LinkedList::clear()
     {
         Node *temp = current;
         current = current->next;
+        delete temp->data;
         delete temp;
     }
     head = nullptr;
@@ -75,9 +76,7 @@ void LinkedList::sortByArrivalTime()
             Node *next = current->next;
             if (current->data->arrivalTime > next->data->arrivalTime)
             {
-                Process *temp = current->data;
-                current->data = next->data;
-                next->data = temp;
+                swap(current->data, next->data);
             }
             current = next;
         }
