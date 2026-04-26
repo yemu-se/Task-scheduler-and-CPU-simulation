@@ -7,6 +7,30 @@
 
 using namespace std;
 
+bool readInt(const char *prompt, int &value, int minValue, int maxValue)
+{
+    while (true)
+    {
+        cout << prompt;
+        cin >> value;
+        if (cin.fail())
+        {
+            cout << "Invalid input. Please enter an integer.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        if (value < minValue || value > maxValue)
+        {
+            cout << "Value must be between " << minValue << " and " << maxValue << ".\n";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return true;
+    }
+}
+
 void displayMenu()
 {
     cout << "\n========================================" << endl;
@@ -25,19 +49,15 @@ void displayMenu()
 void inputProcesses(Scheduler *scheduler)
 {
     int n;
-    cout << "\nEnter number of processes: ";
-    cin >> n;
+    readInt("\nEnter number of processes: ", n, 1, 100);
 
     for (int i = 0; i < n; i++)
     {
         int at, bt, pr;
         cout << "\nProcess P" << i + 1 << ":" << endl;
-        cout << "  Arrival Time: ";
-        cin >> at;
-        cout << "  Burst Time: ";
-        cin >> bt;
-        cout << "  Priority (1 = highest): ";
-        cin >> pr;
+        readInt("  Arrival Time: ", at, 0, 10000);
+        readInt("  Burst Time: ", bt, 1, 10000);
+        readInt("  Priority (1 = highest): ", pr, 1, 1000);
 
         scheduler->addProcess(i + 1, at, bt, pr);
     }
@@ -89,7 +109,7 @@ int main()
     do
     {
         displayMenu();
-        cin >> choice;
+        readInt("", choice, 1, 6);
 
         switch (choice)
         {
