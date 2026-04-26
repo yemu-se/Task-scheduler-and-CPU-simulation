@@ -18,9 +18,7 @@ struct LinkedList
     LinkedList();
     ~LinkedList();
     void insert(Process *p);
-    Process *getHead();
-    int getSize();
-    bool isEmpty();
+    Node *getHead();
     void clear();
     void sortByArrivalTime();
 };

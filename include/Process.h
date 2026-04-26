@@ -4,14 +4,6 @@
 #include <iostream>
 using namespace std;
 
-enum ProcessState
-{
-    NEW,
-    READY,
-    RUNNING,
-    TERMINATED
-};
-
 struct Process
 {
     int pid;
@@ -21,11 +13,8 @@ struct Process
 
     // execution state
     int remainingTime;
-    ProcessState state;
-    Process *next;
 
     // performance metrics
-    int startTime;
     int waitingTime;
     int turnaroundTime;
     int completionTime;
