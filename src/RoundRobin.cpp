@@ -9,11 +9,11 @@ void RoundRobin::schedule()
     cout << "\n=== ROUND ROBIN SCHEDULING (Quantum = " << timeQuantum << ") ===\n";
     Process *processes[100];
     int processCount = 0;
-    Process *temp = processList->getHead();
-    while (temp != nullptr)
+    Node *node = processList->getHead();
+    while (node != nullptr)
     {
-        processes[processCount++] = temp;
-        temp = temp->next;
+        processes[processCount++] = node->data;
+        node = node->next;
     }
     for (int i = 0; i < processCount - 1; i++)
     {
@@ -36,14 +36,24 @@ void RoundRobin::schedule()
     int completed = 0;
     int index = 0;
 
-    while (index < processCount && processes[index]->arrivalTime <= currentTime)
+    while (completed < processCount)
     {
-        readQueue.enqueue(processes[index]);
-        index++;
-    }
+        while (index < processCount && processes[index]->arrivalTime <= currentTime)
+        {
+            readQueue.enqueue(processes[index]);
+            index++;
+        }
 
-    if (!readQueue.isEmpty())
-    {
+        if (readQueue.isEmpty())
+        {
+            if (index < processCount)
+            {
+                currentTime = processes[index]->arrivalTime;
+                continue;
+            }
+            break;
+        }
+
         Process *current = readQueue.dequeue();
         int executeTime = (timeQuantum < current->remainingTime) ? timeQuantum : current->remainingTime;
 
@@ -69,10 +79,6 @@ void RoundRobin::schedule()
             }
             readQueue.enqueue(current);
         }
-    }
-    else if (index < processCount)
-    {
-        currentTime = processes[index]->arrivalTime;
     }
     displayResults();
 }

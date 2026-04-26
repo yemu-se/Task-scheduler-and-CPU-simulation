@@ -15,11 +15,11 @@ void Priority::schedule()
 
     Process *processes[100];
     int processCount = 0;
-    Process *temp = processList->getHead();
-    while (temp != nullptr)
+    Node *node = processList->getHead();
+    while (node != nullptr)
     {
-        processes[processCount++] = temp;
-        temp = temp->next;
+        processes[processCount++] = node->data;
+        node = node->next;
     }
 
     for (int i = 0; i < processCount - 1; i++)
@@ -84,14 +84,40 @@ void Priority::schedule()
             readyQueue[highestPriorityIndex] = readyQueue[readyCount - 1];
             readyCount--;
             int starttime = currentTime;
+
+            int executeTime;
+            if (!preemptive)
+            {
+                executeTime = runningProcess->remainingTime;
+            }
+            else
+            {
+                // Find time to next preemption: arrival of higher priority process
+                int nextPreemptTime = currentTime + runningProcess->remainingTime;
+                for (int i = index; i < processCount; i++)
+                {
+                    if (processes[i]->arrivalTime > currentTime && processes[i]->priority < runningProcess->priority)
+                    {
+                        nextPreemptTime = min(nextPreemptTime, processes[i]->arrivalTime);
+                    }
+                }
+                executeTime = min(runningProcess->remainingTime, nextPreemptTime - currentTime);
+            }
+
             cpu.loadProcess(runningProcess, starttime);
-            gantt.add(runningProcess->pid, starttime, starttime + runningProcess->remainingTime);
-            cpu.execute();
-            currentTime = cpu.currentTime;
+            gantt.add(runningProcess->pid, starttime, starttime + executeTime);
+            cpu.execute(executeTime);
+            currentTime = cpu.getCurrentTime();
             if (runningProcess->remainingTime == 0)
             {
                 cpu.unloadProcess();
                 completed++;
+                runningProcess = nullptr;
+            }
+            else
+            {
+                cpu.preempt();
+                readyQueue[readyCount++] = runningProcess;
                 runningProcess = nullptr;
             }
         }

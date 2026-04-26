@@ -33,21 +33,9 @@ void LinkedList::insert(Process *p)
     size++;
 }
 
-Process *LinkedList::getHead()
+Node *LinkedList::getHead()
 {
-    if (head == nullptr)
-        return nullptr;
-    return head->data;
-}
-
-int LinkedList::getSize()
-{
-    return size;
-}
-
-bool LinkedList::isEmpty()
-{
-    return head == nullptr;
+    return head;
 }
 
 void LinkedList::clear()

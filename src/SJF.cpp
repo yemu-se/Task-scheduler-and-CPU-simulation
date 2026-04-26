@@ -5,15 +5,15 @@ using namespace std;
 
 void SJF::schedule()
 {
-    cout << "\n=== SJF SCHEDULING (Non-Preemptive) ===\n";
+    cout << "\n=== SJF SCHEDULING (Preemptive Shortest Remaining Time) ===\n";
     Process *proceses[100];
     int processCount = 0;
-    Process *temp = processList->getHead();
+    Node *node = processList->getHead();
 
-    while (temp != nullptr)
+    while (node != nullptr)
     {
-        proceses[processCount++] = temp;
-        temp = temp->next;
+        proceses[processCount++] = node->data;
+        node = node->next;
     }
 
     for (int i = 0; i < processCount - 1; i++)
@@ -30,38 +30,58 @@ void SJF::schedule()
     {
         proceses[i]->remainingTime = proceses[i]->burstTime;
     }
-    MinHeap readQueue;
+    MinHeap readyQueue;
     int currentTime = 0;
     int completed = 0;
     int index = 0;
+    Process *currentProcess = nullptr;
 
     while (completed < processCount)
-    { // Load all processes that have arrived by "currentTime" into the MinHeap
+    {
         while (index < processCount && proceses[index]->arrivalTime <= currentTime)
         {
-            readQueue.insert(proceses[index]);
+            readyQueue.insert(proceses[index]);
             index++;
         }
-        if (!readQueue.isEmpty())
-        {
-            Process *shortest = readQueue.extractMin();
-            shortest->waitingTime = currentTime - shortest->arrivalTime;
-            shortest->turnaroundTime = shortest->waitingTime + shortest->burstTime;
-            if (currentTime < shortest->arrivalTime)
-            {
-                currentTime = shortest->arrivalTime;
-            }
 
-            cpu.loadProcess(shortest, currentTime);
-            gantt.add(shortest->pid, currentTime, currentTime + shortest->remainingTime);
-            cpu.execute();
-            currentTime = cpu.getCurrentTime();
+        if (currentProcess == nullptr && !readyQueue.isEmpty())
+        {
+            currentProcess = readyQueue.extractMin();
+        }
+
+        if (currentProcess == nullptr)
+        {
+            if (index < processCount)
+            {
+                currentTime = proceses[index]->arrivalTime;
+            }
+            continue;
+        }
+
+        int nextArrivalTime = (index < processCount) ? proceses[index]->arrivalTime : INT_MAX;
+        int executeTime = min(currentProcess->remainingTime, nextArrivalTime - currentTime);
+        if (executeTime <= 0)
+        {
+            currentTime = nextArrivalTime;
+            continue;
+        }
+
+        cpu.loadProcess(currentProcess, currentTime);
+        gantt.add(currentProcess->pid, currentTime, currentTime + executeTime);
+        cpu.execute(executeTime);
+        currentTime = cpu.getCurrentTime();
+
+        if (currentProcess->remainingTime == 0)
+        {
             cpu.unloadProcess();
             completed++;
+            currentProcess = nullptr;
         }
-        else if (index < processCount)
+        else
         {
-            currentTime = proceses[index]->arrivalTime;
+            cpu.preempt();
+            readyQueue.insert(currentProcess);
+            currentProcess = nullptr;
         }
     }
     displayResults();

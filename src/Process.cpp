@@ -10,11 +10,8 @@ Process::Process(int id, int at, int bt, int pr)
 
     // execution state
     remainingTime = bt;
-    state = NEW;
-    next = nullptr;
 
     // performance metrics
-    startTime = 0;
     waitingTime = 0;
     turnaroundTime = 0;
     completionTime = 0;

@@ -25,7 +25,6 @@ void CPU::loadProcess(Process *p, int startTime)
         currentTime = startTime;
     }
     runningProcess = p;
-    p->state = RUNNING;
     if (p->firstResponseTime == -1)
     {
         p->firstResponseTime = currentTime;
@@ -40,10 +39,6 @@ void CPU::unloadProcess()
         runningProcess->completionTime = currentTime;
         runningProcess->turnaroundTime = runningProcess->completionTime - runningProcess->arrivalTime;
         runningProcess->waitingTime = runningProcess->turnaroundTime - runningProcess->burstTime;
-        runningProcess->state = TERMINATED;
-        runningProcess = nullptr;
-    }
-    else{
         runningProcess = nullptr;
     }
 }
@@ -52,7 +47,6 @@ void CPU::preempt()
 {
     if (runningProcess)
     {
-        runningProcess->state = READY;
         runningProcess = nullptr;
     }
 }

@@ -31,7 +31,7 @@ void GanttChart::display()
 
     cout << "\n"
          << string(50, '=') << endl;
-    cout << "GannttChart " << endl;
+    cout << "GanttChart " << endl;
     cout << string(50, '=') << endl;
 
     cout << "  ";
@@ -57,5 +57,5 @@ void GanttChart::display()
     {
         cout << "\t" << entries[i].endTime;
     }
-    cout << "+\n";
+    cout << "\n";
 }

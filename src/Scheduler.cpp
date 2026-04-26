@@ -39,14 +39,15 @@ void Scheduler::displayResults()
          << setw(15) << "Response" << endl;
     cout << string(120, '-') << endl;
 
-    Process *temp = processList->getHead();
+    Node *node = processList->getHead();
     int n = 0;
     totalWaitingTime = 0; // ← FIXED
     totalTurnaroundTime = 0;
     totalResponseTime = 0;
 
-    while (temp != nullptr)
+    while (node != nullptr)
     {
+        Process *temp = node->data;
         cout << left << setw(10) << ("P" + to_string(temp->pid))
              << setw(15) << temp->arrivalTime
              << setw(15) << temp->burstTime
@@ -59,7 +60,7 @@ void Scheduler::displayResults()
         totalTurnaroundTime += temp->turnaroundTime;
         totalResponseTime += temp->responseTime;
         n++;
-        temp = temp->next;
+        node = node->next;
     }
 
     cout << string(120, '-') << endl;

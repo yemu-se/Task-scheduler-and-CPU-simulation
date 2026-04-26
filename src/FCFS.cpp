@@ -8,22 +8,23 @@ void FCFS::schedule()
 
     processList->sortByArrivalTime();
 
-    int currentTIme = 0;
-    Process *temp = processList->getHead();
+    int currentTime = 0;
+    Node *node = processList->getHead();
 
-    while (temp != nullptr)
+    while (node != nullptr)
     {
-        if (currentTIme < temp->arrivalTime)
+        Process *temp = node->data;
+        if (currentTime < temp->arrivalTime)
         {
-            currentTIme = temp->arrivalTime;
+            currentTime = temp->arrivalTime;
         }
-        cpu.loadProcess(temp, currentTIme);
-        gantt.add(temp->pid, currentTIme, currentTIme + temp->burstTime);
+        cpu.loadProcess(temp, currentTime);
+        gantt.add(temp->pid, currentTime, currentTime + temp->burstTime);
         cpu.execute();
-        currentTIme = cpu.getCurrentTime();
+        currentTime = cpu.getCurrentTime();
         cpu.unloadProcess();
 
-        temp = temp->next;
+        node = node->next;
     }
 
     displayResults();
