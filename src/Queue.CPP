@@ -29,6 +29,7 @@ void Queue::enqueue(Process *p)
 // Remove from front
 Process *Queue::dequeue()
 {
+    
     if (isEmpty())
         return nullptr;
         Process *p = arr[front];
